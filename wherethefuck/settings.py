@@ -90,6 +90,12 @@ DATABASES = {
 AUTH_USER_MODEL = 'wtfapi.User'
 
 
+# Please note: this setting was added because the sites feature is to be used here.
+# By using this one, the default site being created upon migration (example.com, with
+# id=1) if no domain matches.
+SITE_ID = 1
+
+
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
