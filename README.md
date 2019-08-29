@@ -21,8 +21,10 @@ Installing this project
 
    ```
    Django==2.2.4
+   django-category==2.0.1
    django-map-widgets==0.2.2
    psycopg2==2.8.3
+   Pillow==6.1.0
    ```
    
    And other you'd need.

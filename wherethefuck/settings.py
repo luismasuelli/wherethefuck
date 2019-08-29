@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'category',
     'mapwidgets',
     'wtfapi.apps.WtfapiConfig',
 ]
@@ -84,6 +86,8 @@ DATABASES = {
         'PASSWORD': 'my-insecure-dev-password'
     }
 }
+
+AUTH_USER_MODEL = 'wtfapi.User'
 
 
 # Password validation
