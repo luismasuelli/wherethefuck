@@ -82,5 +82,9 @@ class POI(models.Model):
     objects = POIQuerySet.as_manager()
 
     class Meta:
+        permissions = (
+            ('manage_country_pois', 'Can manage POIs in specific countries'),
+            ('manage_region_pois', 'Can manage POIs in specific regions'),
+        )
         verbose_name = _('POI')
         verbose_name_plural = _('POIs')
