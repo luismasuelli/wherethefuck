@@ -1,5 +1,11 @@
-from django.contrib.gis.db.models.functions import Distance
+"""
+Points of interest are the stuff we search for. This means: we use some kind of polygon or circle
+  distance, and we retrieve the points of interest that belong to that distance or that polygon.
+"""
+
+
 from django.db import models
+from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.db.models import PointField
 from django.utils.translation import ugettext_lazy as _
 from category.models import Category
@@ -22,7 +28,7 @@ class POIQuerySet(models.QuerySet):
         Returns all the POIs within a given radius.
         :param point: The center point.
         :param distance: The radius, in meters.
-        :return: A queryset for that condition.
+        :return: A new queryset for that condition.
         """
 
         return self.filter(location__distance_lte=(point, distance))
@@ -50,6 +56,18 @@ class POIQuerySet(models.QuerySet):
         """
 
         return self.within(point, distance).annotate_distances(**{output_field: point}).order_by(output_field)
+
+    def in_region(self, regions):
+        """
+        Returns a queryset filtering all the points by one or more required regions (with certain geometry).
+        Accepted/returned points will be the ones that belong to one or more of the specified regions. For
+          an intersection criterion, several chained calls to this method will do the trick.
+        :param regions: An iterable with regions to search by.
+        :return: A new queryset for that condition.
+        """
+
+        # TODO implement
+        raise NotImplemented
 
 
 class POI(models.Model):
