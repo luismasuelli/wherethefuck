@@ -6,6 +6,7 @@ BUT I did not port it to Python 3 yet, and the former namespace format have a bu
 
 
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 
 class SoftDeletedQueryset(models.QuerySet):
@@ -33,6 +34,25 @@ class SoftDeleted(models.Model):
     # Deletion fields (to check in database only).
     deleted = models.BooleanField(default=False, editable=False)
     deleted_by = models.ForeignKey('User', editable=False, null=True, on_delete=models.SET_NULL)
+
+    class Meta:
+        abstract = True
+
+
+class Described(SoftDeleted):
+    """
+    Adds some description fields to the records. Useful for publicly available
+      data, like regions and POIs.
+    """
+
+    # Public (display) data.
+    name = models.CharField(max_length=80, verbose_name=_('Name'))
+    description = models.TextField(max_length=512, verbose_name=_('Description'))
+    # Internal fields.
+    internal_notes = models.TextField(null=True, blank=True, verbose_name=_('Internal Notes'),
+                                      help_text=_('These notes are only useful here, in the admin panel, and '
+                                                  'are never revealed as public data. Use this space to take '
+                                                  'all the notes you need about this POI.'))
 
     class Meta:
         abstract = True
