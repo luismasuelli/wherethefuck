@@ -9,19 +9,10 @@ from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.db.models import PointField
 from django.utils.translation import ugettext_lazy as _
 from category.models import Category
+from .base import SoftDeletedQueryset, Described
 
 
-class POIQuerySet(models.QuerySet):
-
-    def all(self):
-        """
-        Excludes the marked-as-deleted POIs.
-        :return: A base queryset, excluding the deleted ones.
-        """
-
-        # If at least one of the two fields is null, it will count
-        #   as deleted and not included in the regular queryset.
-        return self.filter(deleted=False, deleted_by__isnull=True)
+class POIQuerySet(SoftDeletedQueryset):
 
     def within(self, point, distance):
         """
@@ -70,32 +61,18 @@ class POIQuerySet(models.QuerySet):
         raise NotImplemented
 
 
-class POI(models.Model):
+class POI(Described):
     """
     POIs are the core of this system. They are literally points
       of interest, and will have name, image and description (Other
       fields MAY be added in the future or via plug-in).
     """
 
-    # Timestamp fields.
-    created_on = models.DateTimeField(auto_now_add=True, verbose_name=_('Created On'))
-    updated_on = models.DateTimeField(auto_now=True, verbose_name=_('Updated On'))
-    # Public (display) data: name and short description are mandatory fields,
-    #   but long descriptions and image are not.
-    name = models.CharField(max_length=80, verbose_name=_('Name'))
-    description = models.TextField(max_length=512, verbose_name=_('Description'))
+    # Image is optional for a POI, but adds some description.
     picture = models.ImageField(upload_to='pictures', blank=True, null=True, verbose_name=_('Picture'))
     # Filtering data (by category or location).
     location = PointField(verbose_name=_('Location'))
     categories = models.ManyToManyField(Category, verbose_name=_('Categories'))
-    # Internal fields.
-    internal_notes = models.TextField(null=True, blank=True, verbose_name=_('Internal Notes'),
-                                      help_text=_('These notes are only useful here, in the admin panel, and '
-                                                  'are never revealed as public data. Use this space to take '
-                                                  'all the notes you need about this POI.'))
-    # Fields for deleted POI (to check in database only).
-    deleted = models.BooleanField(default=False, editable=False)
-    deleted_by = models.ForeignKey('User', editable=False, null=True, on_delete=models.SET_NULL)
 
     objects = POIQuerySet.as_manager()
 
