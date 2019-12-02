@@ -23,7 +23,7 @@ class Region(Described):
     # Filtering data (by region).
     boundaries = MultiPolygonField(verbose_name=_('Boundaries'))
     # Managers.
-    managers = models.ForeignKey('User', related_name='managed_%(class)s_records', on_delete=models.PROTECT)
+    managers = models.ForeignKey('User', related_name='managed_%(class)s_records', blank=True, on_delete=models.PROTECT)
 
     class Meta:
         abstract = True

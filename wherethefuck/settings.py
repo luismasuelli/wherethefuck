@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'category',
-    'mapwidgets',
+    'floppyforms',
     'wtfapi.apps.WtfapiConfig',
 ]
 
@@ -93,6 +93,7 @@ AUTH_USER_MODEL = 'wtfapi.User'
 # Please note: this setting was added because the sites feature is to be used here.
 # By using this one, the default site being created upon migration (example.com, with
 # id=1) if no domain matches.
+
 SITE_ID = 1
 
 
@@ -113,6 +114,9 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+
+GOOGLE_MAPS_API_KEY = ''
 
 
 # Internationalization
