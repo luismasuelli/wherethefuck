@@ -14,7 +14,7 @@ class ReducedUnicodeUsernameValidator(RegexValidator):
     regex = r'^[\w_]+$'
     message = _(
         'Enter a valid username. This value may contain only letters, '
-        'numbers, and @/./+/-/_ characters.'
+        'numbers, and _ characters.'
     )
     flags = 0
 
