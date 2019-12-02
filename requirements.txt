@@ -1,0 +1,2 @@
+django-floppyforms==1.8.0
+django-category==2.0.1
