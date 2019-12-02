@@ -76,5 +76,8 @@ class Province(Region):
     objects = CountryQuerySet.as_manager()
 
     class Meta:
+        permissions = (
+            ('manage_country_provinces', 'Can manage provinces in specific countries'),
+        )
         verbose_name = _('Province')
         verbose_name_plural = _('Provinces')
