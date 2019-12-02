@@ -72,7 +72,7 @@ class POI(Described):
     picture = models.ImageField(upload_to='pictures', blank=True, null=True, verbose_name=_('Picture'))
     # Filtering data (by category or location).
     location = PointField(verbose_name=_('Location'))
-    categories = models.ManyToManyField(Category, verbose_name=_('Categories'))
+    categories = models.ManyToManyField(Category, blank=True, verbose_name=_('Categories'))
 
     objects = POIQuerySet.as_manager()
 
