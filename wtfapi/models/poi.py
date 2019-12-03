@@ -4,6 +4,7 @@ Points of interest are the stuff we search for. This means: we use some kind of 
 """
 
 
+from functools import reduce
 from django.db import models
 from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.db.models import PointField
@@ -57,8 +58,8 @@ class POIQuerySet(SoftDeletedQueryset):
         :return: A new queryset for that condition.
         """
 
-        # TODO implement
-        raise NotImplemented
+        return self.filter(reduce(lambda a, b: a | b, (models.Q(location__intersects=region.boundaries)
+                                                       for region in regions if region.boundaries)))
 
 
 class POI(Described):
