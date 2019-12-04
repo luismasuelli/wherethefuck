@@ -31,6 +31,16 @@ class ChangePasswordAction:
         self.new_password_confirmation = new_password_confirmation
 
 
+class RequestPasswordResetAction:
+    """
+    Action parsed from the external change password flow start (i.e. trigger a
+      password reset change).
+    """
+
+    def __init__(self, username):
+        self.username = username
+
+
 class ResetPasswordAction:
     """
     Action parsed from the external change password endpoint (i.e. on password reset).
