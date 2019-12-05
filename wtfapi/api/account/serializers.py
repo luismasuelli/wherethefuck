@@ -1,4 +1,5 @@
-from rest_framework.serializers import Serializer, CharField, EmailField, RelatedField, IntegerField
+from django.utils.translation import ugettext_lazy as _
+from rest_framework.serializers import Serializer, CharField, EmailField, RelatedField, IntegerField, ValidationError
 from .transient import *
 from ...models import POI
 
@@ -28,6 +29,10 @@ class RegisterSerializer(CreateOnlySerializer):
     email = EmailField(required=True)
     password = CharField(required=True)
     password_confirmation = CharField(required=True)
+
+    def validate(self, attrs):
+        if attrs['password'] != attrs['password_confirmation']:
+            raise ValidationError(_("Passwords don't match"))
 
     def create(self, validated_data):
         return RegisterAction(validated_data['username'], validated_data['email'], validated_data['password'],
@@ -60,6 +65,10 @@ class ChangePasswordSerializer(CreateOnlySerializer):
     new_password = CharField(required=True)
     new_password_confirmation = CharField(required=True)
 
+    def validate(self, attrs):
+        if attrs['new_password'] != attrs['new_password_confirmation']:
+            raise ValidationError(_("Passwords don't match"))
+
     def create(self, validated_data):
         return ChangePasswordAction(validated_data['current_password'], validated_data['new_password'],
                                     validated_data['new_password_confirmation'])
@@ -89,6 +98,10 @@ class ResetPasswordSerializer(CreateOnlySerializer):
     recovery_key = CharField(required=True)
     new_password = CharField(required=True)
     new_password_confirmation = CharField(required=True)
+
+    def validate(self, attrs):
+        if attrs['new_password'] != attrs['new_password_confirmation']:
+            raise ValidationError(_("Passwords don't match"))
 
     def create(self, validated_data):
         return ResetPasswordAction(validated_data['recovery_key'], validated_data['new_password'],
