@@ -76,7 +76,7 @@ class ChangePasswordSerializer(CreateOnlySerializer):
                                     validated_data['new_password_confirmation'])
 
 
-class RequestPasswordReset(CreateOnlySerializer):
+class RequestPasswordResetSerializer(CreateOnlySerializer):
     """
     Serializer for request password reset. Involves:
       username
