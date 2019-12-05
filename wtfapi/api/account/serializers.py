@@ -66,6 +66,8 @@ class ChangePasswordSerializer(CreateOnlySerializer):
     new_password_confirmation = CharField(required=True)
 
     def validate(self, attrs):
+        if attrs['current_password'] == attrs['new_password']:
+            raise ValidationError(_("New password must be different"))
         if attrs['new_password'] != attrs['new_password_confirmation']:
             raise ValidationError(_("Passwords don't match"))
 
