@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'rest_framework_gis',
     'category',
     'floppyforms',
     'wtfapi.apps.WtfapiConfig',
@@ -115,6 +118,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+# Google Maps API key configuration for widgets.
 
 GOOGLE_MAPS_API_KEY = ''
 
