@@ -91,4 +91,25 @@ class CloseAccount(LoginRequiredAPIView):
                 request.auth.delete()
             user.is_active = False
             user.save()
-        return Response({'detail': 'success'}, status=status.HTTP_200_OK)
+            return Response({'detail': 'success'}, status=status.HTTP_200_OK)
+        else:
+            return Response({'detail': 'failed'}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+
+
+class ChangePassword(LoginRequiredAPIView):
+    """
+    This is the password change view.
+    """
+
+    def post(self, request):
+        serializer = ChangePasswordSerializer(data=request.POST)
+        serializer.is_valid(True)
+        action = serializer.save()
+        # The user will re-authenticate just to check credentials validity.
+        user = authenticate(request, username=request.user.username, password=action.current_password)
+        if user:
+            user.set_password(action.new_password)
+            user.save()
+            return Response({'detail': 'success'}, status=status.HTTP_200_OK)
+        else:
+            return Response({'detail': 'failed'}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
