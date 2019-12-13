@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'djcelery_email',
     'rest_framework',
     'rest_framework.authtoken',
     'rest_framework_gis',
@@ -93,6 +94,11 @@ DATABASES = {
 AUTH_USER_MODEL = 'wtfapi.User'
 
 
+# Celery configuration
+
+CELERY_BROKER_URL = 'amqp://djcelery_wtf_admin:my-insecure-dev-password@localhost:5672/'
+
+
 # Please note: this setting was added because the sites feature is to be used here.
 # By using this one, the default site being created upon migration (example.com, with
 # id=1) if no domain matches.
@@ -138,6 +144,22 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# E-mail settings
+# TODO read more from: https://medium.com/@EmadMokhtar/send-emails-asynchronously-from-django-3c1e41b526c3
+EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
+CELERY_EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# TODO populate these settings
+EMAIL_HOST = ''
+EMAIL_PORT = ''
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_TLS = True
+# EMAIL_USE_SSL = False
+# EMAIL_SSL_KEYFILE = ''
+# EMAIL_SSL_CERTFILE = ''
+
 
 try:
     from .local_settings import *
