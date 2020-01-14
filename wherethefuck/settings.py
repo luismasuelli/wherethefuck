@@ -38,12 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django.contrib.gis',
     'djcelery_email',
     'rest_framework',
     'rest_framework.authtoken',
     'rest_framework_gis',
     'category',
-    'floppyforms',
     'wtfapi.apps.WtfapiConfig',
 ]
 
