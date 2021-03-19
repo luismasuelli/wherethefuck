@@ -1,4 +1,4 @@
 django-celery-email==3.0.0
 django-category==2.0.1
-djangorestframework==3.10.3
+djangorestframework==3.11.2
 djangorestframework-gis==0.14
